@@ -93,7 +93,7 @@
 
         .banner .home_logo {
           position: absolute;
-          top: 68%; 
+          top: 60%; 
           left: 50%; 
           transform: translate(-50%, -50%); 
           max-width: 50%; 

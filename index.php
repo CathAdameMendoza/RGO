@@ -1,3 +1,63 @@
+<?php
+// Start a session
+session_start();
+
+// Database connection details
+$databaseHost = 'localhost';
+$databaseUsername = 'root';
+$databasePassword = '';
+$dbname = 'rgo_db';
+
+// Create a connection to the database
+$conn = new mysqli($databaseHost, $databaseUsername, $databasePassword, $dbname);
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if the username and password match a record in the database    
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    // You should perform proper validation and sanitization here
+
+    // Hash the password before comparing it with the database
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $sql = "SELECT user_id, password FROM users WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row['password'])) {
+            $_SESSION['user_id'] = $row['user_id'];
+
+            // Check if user_id is present in 'applicants' table
+            $applicantSql = "SELECT user_id FROM applicants WHERE user_id = ?";
+            $applicantStmt = $conn->prepare($applicantSql);
+            $applicantStmt->bind_param("s", $_SESSION['user_id']);
+            $applicantStmt->execute();
+            $applicantResult = $applicantStmt->get_result();
+
+            if ($applicantResult->num_rows == 1) {
+                header("Location: homepage.php");
+                exit();
+            } else {
+                echo '<script>alert("Invalid email or password.");</script>';
+            }
+        }
+    }
+}
+
+// Close the database connection
+$conn->close();
+?>
+
 <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -42,6 +102,7 @@
                     <div>
                         <div class="login__buttons">
                             <button class="login__button">Log In</button>
+                                
                        </div>
 
                         <a href="#" class="login__forgot">Forgot Password?</a>

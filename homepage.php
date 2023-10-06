@@ -17,13 +17,13 @@
                 <div class="icon cancel-btn">
                     <i class="fas fa-times"></i>
                 </div>
-                <li><a href="#">Home</a></li>
+                <li><a href="homepage.php">Home</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Menu</a></li>
                 <li><a href="#">Contact</a></li>
-                <li><a href="#">Online Catering</a></li>
+                <li><a href="shop.php">Online Catering</a></li>
                 <li><a href="#">More</a></li>
-                <li><a href="#"><i class="fas fa-shopping-bag"></i> <span id="cart-item" class="badge badge-danger"></span></a></li>
+                <li><a href="cart.php"><i class="fas fa-shopping-bag"></i> <span id="cart-item" class="badge badge-danger"></span></a></li>
                 <a style= "color: white">GCH, Alangilan, Batangas City</a>
                 <li><a href="#"><i class="fas fa-user"></i></a></li>
             </ul>
